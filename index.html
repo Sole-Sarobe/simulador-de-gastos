@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulador de Gastos</title>
+
+  <!-- Toastify -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <header class="container">
+        <h1>Simulador de gastos mensuales</h1>
+        <p class="muted">
+         Cargá tu ingreso y registrá gastos por categoría (ARS o USD). Se guarda en valores ARS, los USD los convierte automaticamente.
+        </p>
+    </header>
+
+  <main class="container grid">
+
+        <!-- Ingreso -->
+        <section class="card">
+      <h2>Ingresos mensuales</h2>
+
+      <form id="incomeForm" class="row" autocomplete="off">
+        <label class="field">
+          <span>Ingreso (ARS)</span>
+          <input id="incomeInput" type="number" min="0" step="0.01" placeholder="Ej: 350000" required />
+        </label>
+
+        <button class="btn" type="submit">Guardar ingresos</button>
+      </form>
+
+      <p class="help muted">Tip: podés modificar el ingreso y se recalcula todo.</p>
+      <div id="incomeMsg" class="msg" aria-live="polite"></div>
+        </section>
+
+        <!-- Cargar gasto -->
+        <section class="card">
+      <h2>Agregar gastos</h2>
+
+      <form id="expenseForm" class="stack" autocomplete="off">
+
+     <div class="row">
+        <label class="field">
+         <span>Moneda</span>
+         <select id="currencySelect" required>
+            <option value="ARS" selected>ARS ($)</option>
+            <option value="USD">USD (U$S)</option>
+         </select>
+        </label>
+
+        <div id="fxBox" class="fxbox">
+             <label class="field">
+                  <span>Tipo de dólar</span>
+                  <select id="dolarCasaSelect">
+                     <option value="oficial" selected>Oficial</option>
+                     <option value="blue">Blue</option>
+                     <option value="bolsa">MEP (Bolsa)</option>
+                     <option value="contadoconliqui">CCL</option>
+                     <option value="mayorista">Mayorista</option>
+                     <option value="tarjeta">Tarjeta</option>
+                    </select>
+                </label>
+            </div>
+     </div>
+
+     <div id="fxInfoWrap" class="fxinfo">
+  <p id="fxInfo" class="help muted">Cotización: —</p>
+     </div>
+
+
+     <div class="row">
+    <label class="field">
+        <span>Categoría</span>
+        <select id="categorySelect" required>
+           <option value="" selected disabled>Cargando categorías...</option>
+        </select>
+    </label>
+
+    <label class="field">
+        <span>Monto</span>
+        <input id="amountInput" type="number" min="0.01" step="0.01" placeholder="Ej: 12000" required />
+    </label>
+        </div>
+
+        <label class="field">
+          <span>Descripción (opcional)</span>
+          <input id="descInput" type="text" maxlength="60" placeholder="Ej: supermercado / nafta / internet" />
+        </label>
+
+        <button class="btn" type="submit">Agregar</button>
+        <div id="expenseMsg" class="msg" aria-live="polite"></div>
+      </form>
+        </section>
+
+        <!-- Resumen -->
+        <section class="card">
+      <h2>Resumen</h2>
+
+      <div class="kpis">
+        <div class="kpi">
+          <span class="muted">Ingreso</span>
+          <strong id="kpiIncome">$0</strong>
+        </div>
+        <div class="kpi">
+          <span class="muted">Total gastado</span>
+          <strong id="kpiSpent">$0</strong>
+        </div>
+        <div class="kpi">
+          <span class="muted">Saldo</span>
+          <strong id="kpiBalance">$0</strong>
+        </div>
+      </div>
+
+      <div id="statusMsg" class="status" aria-live="polite"></div>
+
+      <h3>Totales por categoría (ARS)</h3>
+      <ul id="categoryTotals" class="list"></ul>
+
+      <h3>Ranking (ARS)</h3>
+      <ol id="rankingList" class="list"></ol>
+        </section>
+
+        <!-- Lista de gastos -->
+        <section class="card">
+      <div class="row space">
+        <h2>Gastos cargados</h2>
+        <button id="clearBtn" class="btn btn-ghost" type="button">Borrar todo</button>
+      </div>
+
+      <div class="table">
+        <div class="table-head">
+          <span>Categoría</span>
+          <span>Descripción</span>
+          <span>Monto</span>
+          <span></span>
+        </div>
+        <div id="expensesList" class="table-body"></div>
+      </div>
+
+      <p class="muted help">Se guarda automáticamente.</p>
+        </section>
+
+     </main>
+
+  <footer class="container muted">
+        <small>Tus gastos siempre ordenados</small>
+    </footer>
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Toastify -->
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+  <!-- App -->
+  <script src="js/app.js"></script>
+</body>
+</html>
